@@ -1,20 +1,21 @@
-/* Noodlecafé site: playable fretboard, download celebration, per-reel tracking. No trackers, no cookies. */
+/* Noodlecafé site: playable fretboard, download celebration, funnel tracking (Whop pixel, assets/px.js; 21 Nov 2026). */
 (function () {
   'use strict';
   var CHECKOUT = 'https://whop.com/checkout/plan_scpA0tf0ttkQr';   // hidden plan 'Reels: 14 days free (website)'; NOODLE499 = $4.99 first month
   var params = new URLSearchParams(location.search);
   var from = (params.get('r') || document.body.getAttribute('data-reel') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 24);   // e.g. 45, pdf43, ig, bio
 
-  /* ---- every join button: checkout link tagged with where the visitor came from ---- */
+  /* ---- every join button goes through /go/, which counts the click in Whop (which button, which sheet, which
+     channel) and then opens the checkout with promo + UTM. A button names itself with data-medium. ---- */
   var page = document.body.getAttribute('data-page') || 'site';
+  var sheet = document.body.getAttribute('data-sheet') || 'site';
+  var src = /^\d+$/.test(from) ? 'direct' : (from.replace(/^pdf\d*$/, 'pdf') || 'direct');      // ig (Zorcha DM), pdf, bio, reel...
   document.querySelectorAll('a[data-join]').forEach(function (a) {
-    var u = new URL(CHECKOUT);
-    u.searchParams.set('promoCode', 'NOODLE499');
-    u.searchParams.set('utm_source', 'website');
-    u.searchParams.set('utm_medium', a.getAttribute('data-medium') || page);
-    u.searchParams.set('utm_campaign', /^\d+$/.test(from) ? 'reel' + from : (from || 'direct'));
-    a.href = u.toString();
+    a.href = '/go/?s=' + encodeURIComponent(sheet) + '&p=' + encodeURIComponent(a.getAttribute('data-medium') || page) + '&src=' + encodeURIComponent(src);
   });
+  function track(name) { try { if (window.whop) whop.track(name); } catch (e) {} }
+  if (page === 'sheet' || page === 'ready') track('view_sheet_' + sheet + '_' + src);
+  function sheetOf(a) { var m = (a.getAttribute('href') || '').match(/noodlecafe-([a-z0-9]+)\.pdf/i); return m ? m[1].toLowerCase() : sheet; }
 
   /* ---- sound: a soft plucked string (Karplus-Strong), made in the browser ---- */
   var ctx = null, cache = {};
@@ -98,6 +99,7 @@
     var toast = document.getElementById('toast'), after = document.getElementById('after');
     list.addEventListener('click', function (ev) {
       var a = ev.target.closest('a[download]'); if (!a) return;
+      track('pdf_save_' + sheetOf(a)); track('pdf_save_on_free');
       var card = a.closest('.sheet'), title = card ? card.getAttribute('data-title') : 'Your sheet';
       confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
       if (toast) { toast.querySelector('b').textContent = title; toast.classList.add('show'); setTimeout(function () { toast.classList.remove('show'); }, 5200); }
@@ -111,6 +113,7 @@
   var ovl = document.getElementById('offer');
   function openOffer() {
     if (!ovl) return;
+    track('popup_open_' + sheet);
     ovl.hidden = false; requestAnimationFrame(function () { ovl.classList.add('open'); });
     document.body.classList.add('locked');
     var cta = ovl.querySelector('.btn-pink'); if (cta) setTimeout(function () { cta.focus({ preventScroll: true }); }, 450);
@@ -120,12 +123,13 @@
     setTimeout(function () { ovl.hidden = true; }, 300);
   }
   if (ovl) {
-    ovl.addEventListener('click', function (ev) { if (ev.target === ovl || ev.target.closest('.ovl-x, .ovl-no')) closeOffer(); });
+    ovl.addEventListener('click', function (ev) { if (ev.target === ovl || ev.target.closest('.ovl-x, .ovl-no')) { track('popup_close_' + sheet); closeOffer(); } });
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeOffer(); });
   }
   var KEY = 'nc_saved_' + location.pathname;
   document.querySelectorAll('[data-pdf]').forEach(function (a) {
     a.addEventListener('click', function () {
+      track('pdf_save_' + sheetOf(a)); track('pdf_save_on_' + page);
       try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
       confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
       setTimeout(openOffer, 250);
