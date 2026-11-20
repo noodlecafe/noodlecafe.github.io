@@ -1,20 +1,26 @@
-/* Noodlecafé site: playable fretboard, download celebration, funnel tracking (Whop pixel, assets/px.js; 21 Nov 2026). */
+/* Noodlecafé site: playable fretboard, download celebration, funnel tracking via our own Noodle Counter (Cloudflare; counter/ in the kit). */
 (function () {
   'use strict';
   var CHECKOUT = 'https://whop.com/checkout/plan_scpA0tf0ttkQr';   // hidden plan 'Reels: 14 days free (website)'; NOODLE499 = $4.99 first month
   var params = new URLSearchParams(location.search);
   var from = (params.get('r') || document.body.getAttribute('data-reel') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 24);   // e.g. 45, pdf43, ig, bio
 
-  /* ---- every join button goes through /go/, which counts the click in Whop (which button, which sheet, which
-     channel) and then opens the checkout with promo + UTM. A button names itself with data-medium. ---- */
+  /* ---- the Noodle Counter: every join button goes through the counter's /go (counted on the server, then the
+     Whop checkout with NOODLE499 + UTM). On-page events are sent with sendBeacon, which survives leaving the page. ---- */
+  var COUNTER = 'https://noodle-counter.noodlecafe.workers.dev';
   var page = document.body.getAttribute('data-page') || 'site';
   var sheet = document.body.getAttribute('data-sheet') || 'site';
-  var src = /^\d+$/.test(from) ? 'direct' : (from.replace(/^pdf\d*$/, 'pdf') || 'direct');      // ig (Zorcha DM), pdf, bio, reel...
+  var src = /^\d+$/.test(from) ? 'direct' : (from.replace(/^pdf\d*$/, 'pdf') || 'direct');      // ig (Zorcha DM), pdf, bio...
   document.querySelectorAll('a[data-join]').forEach(function (a) {
-    a.href = '/go/?s=' + encodeURIComponent(sheet) + '&p=' + encodeURIComponent(a.getAttribute('data-medium') || page) + '&src=' + encodeURIComponent(src);
+    a.href = COUNTER + '/go?s=' + encodeURIComponent(sheet) + '&p=' + encodeURIComponent(a.getAttribute('data-medium') || page) + '&src=' + encodeURIComponent(src) + '&pg=' + encodeURIComponent(page);
   });
-  function track(name) { try { if (window.whop) whop.track(name); } catch (e) {} }
-  if (page === 'sheet' || page === 'ready') track('view_sheet_' + sheet + '_' + src);
+  function track(ev, s) {
+    if (/^(localhost|127\.|file)/.test(location.hostname || 'file')) { try { console.log('[counter test]', ev, s || sheet, page, src); } catch (e) {} return; }
+    var body = JSON.stringify({ ev: ev, sheet: s || sheet, page: page, src: src });
+    try { if (navigator.sendBeacon && navigator.sendBeacon(COUNTER + '/e', body)) return; } catch (e) {}
+    try { fetch(COUNTER + '/e', { method: 'POST', body: body, keepalive: true, mode: 'no-cors' }); } catch (e) {}
+  }
+  track('view');
   function sheetOf(a) { var m = (a.getAttribute('href') || '').match(/noodlecafe-([a-z0-9]+)\.pdf/i); return m ? m[1].toLowerCase() : sheet; }
 
   /* ---- sound: a soft plucked string (Karplus-Strong), made in the browser ---- */
@@ -99,7 +105,7 @@
     var toast = document.getElementById('toast'), after = document.getElementById('after');
     list.addEventListener('click', function (ev) {
       var a = ev.target.closest('a[download]'); if (!a) return;
-      track('pdf_save_' + sheetOf(a)); track('pdf_save_on_free');
+      track('pdf_save', sheetOf(a));
       var card = a.closest('.sheet'), title = card ? card.getAttribute('data-title') : 'Your sheet';
       confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
       if (toast) { toast.querySelector('b').textContent = title; toast.classList.add('show'); setTimeout(function () { toast.classList.remove('show'); }, 5200); }
@@ -113,7 +119,7 @@
   var ovl = document.getElementById('offer');
   function openOffer() {
     if (!ovl) return;
-    track('popup_open_' + sheet);
+    track('popup_open');
     ovl.hidden = false; requestAnimationFrame(function () { ovl.classList.add('open'); });
     document.body.classList.add('locked');
     var cta = ovl.querySelector('.btn-pink'); if (cta) setTimeout(function () { cta.focus({ preventScroll: true }); }, 450);
@@ -123,13 +129,13 @@
     setTimeout(function () { ovl.hidden = true; }, 300);
   }
   if (ovl) {
-    ovl.addEventListener('click', function (ev) { if (ev.target === ovl || ev.target.closest('.ovl-x, .ovl-no')) { track('popup_close_' + sheet); closeOffer(); } });
+    ovl.addEventListener('click', function (ev) { if (ev.target === ovl || ev.target.closest('.ovl-x, .ovl-no')) { track('popup_close'); closeOffer(); } });
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeOffer(); });
   }
   var KEY = 'nc_saved_' + location.pathname;
   document.querySelectorAll('[data-pdf]').forEach(function (a) {
     a.addEventListener('click', function () {
-      track('pdf_save_' + sheetOf(a)); track('pdf_save_on_' + page);
+      track('pdf_save', sheetOf(a));
       try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
       confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
       setTimeout(openOffer, 250);
