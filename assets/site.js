@@ -1,7 +1,7 @@
 /* Noodlecafé site: playable fretboard, download celebration, per-reel tracking. No trackers, no cookies. */
 (function () {
   'use strict';
-  var CHECKOUT = 'https://whop.com/checkout/plan_hrnkCXO1bMwRs';
+  var CHECKOUT = 'https://whop.com/checkout/plan_scpA0tf0ttkQr';   // hidden plan 'Reels: 14 days free (website)'; NOODLE499 = $4.99 first month
   var params = new URLSearchParams(location.search);
   var from = (params.get('r') || document.body.getAttribute('data-reel') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 24);   // e.g. 45, pdf43, ig, bio
 
@@ -9,6 +9,7 @@
   var page = document.body.getAttribute('data-page') || 'site';
   document.querySelectorAll('a[data-join]').forEach(function (a) {
     var u = new URL(CHECKOUT);
+    u.searchParams.set('promoCode', 'NOODLE499');
     u.searchParams.set('utm_source', 'website');
     u.searchParams.set('utm_medium', a.getAttribute('data-medium') || page);
     u.searchParams.set('utm_campaign', /^\d+$/.test(from) ? 'reel' + from : (from || 'direct'));

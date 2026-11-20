@@ -246,3 +246,12 @@ body.locked{overflow:hidden}
 .ovl-no{border:0;background:none;color:#9A968E;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;align-self:center;padding:6px}
 .pulse{animation:pulse 1.8s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 6px 0 var(--pink-d),0 0 0 0 rgba(232,51,111,.45)}50%{box-shadow:0 6px 0 var(--pink-d),0 0 0 12px rgba(232,51,111,0)}}
+
+.lock .sub2{display:block;font-size:13px;color:#6B6B6B;line-height:1.35;margin-top:2px;font-weight:500}
+.deal{background:#FFF6D6;border:1px dashed #E0B400;border-radius:16px;padding:12px 14px;font-size:14.5px;line-height:1.5;color:#3A2E00}
+.deal span{font-size:13.5px}
+
+.ovl-cta{position:sticky;bottom:calc(-22px - env(safe-area-inset-bottom));margin:0 -22px calc(-22px - env(safe-area-inset-bottom));padding:12px 22px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(rgba(255,255,255,.0),#fff 18px);display:flex;flex-direction:column;gap:8px}
+@media (min-width:700px){.ovl-cta{bottom:-32px;margin:0 -32px -32px;padding:12px 32px 22px}}
+@media (max-width:420px){.ovl-card{gap:11px;padding-top:22px}.ovl-card h2{font-size:28px}.ovl-card p.why{font-size:15px}.lock{padding:11px 12px}.lock .pad{flex-basis:36px;height:36px}}
+.deal.dmini{font-size:13.5px;padding:9px 12px;line-height:1.4}
