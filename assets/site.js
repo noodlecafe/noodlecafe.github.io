@@ -3,7 +3,7 @@
   'use strict';
   var CHECKOUT = 'https://whop.com/checkout/plan_hrnkCXO1bMwRs';
   var params = new URLSearchParams(location.search);
-  var from = (params.get('r') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 24);   // e.g. 45, pdf43, bio
+  var from = (params.get('r') || document.body.getAttribute('data-reel') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 24);   // e.g. 45, pdf43, ig, bio
 
   /* ---- every join button: checkout link tagged with where the visitor came from ---- */
   var page = document.body.getAttribute('data-page') || 'site';
@@ -11,7 +11,7 @@
     var u = new URL(CHECKOUT);
     u.searchParams.set('utm_source', 'website');
     u.searchParams.set('utm_medium', page);
-    u.searchParams.set('utm_campaign', from ? ('reel' + from).replace('reelpdf', 'pdf') : 'direct');
+    u.searchParams.set('utm_campaign', /^\d+$/.test(from) ? 'reel' + from : (from || 'direct'));
     a.href = u.toString();
   });
 
@@ -105,5 +105,19 @@
         setTimeout(function () { after.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 900);
       }
     });
+  }
+  /* ---- ready page: celebrate the save, show the sticky join bar once they scroll ---- */
+  document.querySelectorAll('[data-pdf]').forEach(function (a) {
+    a.addEventListener('click', function () { confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220); });
+  });
+  var sticky = document.getElementById('sticky');
+  if (sticky) {
+    var join = document.getElementById('join');
+    var onScroll = function () {
+      var y = window.scrollY, past = y > 520;
+      var atJoin = join && join.getBoundingClientRect().top < window.innerHeight && join.getBoundingClientRect().bottom > 0;
+      sticky.classList.toggle('show', past && !atJoin);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   }
 })();
