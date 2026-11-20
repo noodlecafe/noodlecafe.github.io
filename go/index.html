@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Opening checkout · Noodlecafé</title>
+<script src="/assets/px.js"></script>
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#FAF8F3;font-family:'SF Pro Display','SF Pro Text',Inter,system-ui,sans-serif;color:#141418;text-align:center}
+.b{font-size:44px;animation:s 1s ease-in-out infinite}@keyframes s{50%{transform:translateY(-6px)}}
+p{font-size:18px;font-weight:700;margin:12px 0 6px}a{color:#E8336F;font-weight:700}
+</style>
+</head>
+<body>
+<div><div class="b">🍜</div><p>Opening your 14 free days…</p><a id="go" href="https://whop.com/checkout/plan_scpA0tf0ttkQr?promoCode=NOODLE499">Tap here if nothing happens</a></div>
+<script>
+/* The checkout gateway (21 Nov 2026). Every join button on the site and in the PDFs comes through here, so each click
+   is counted in Whop with WHERE it came from, before the visitor leaves for the checkout.
+   ?s = sheet id (12notes, onestring, 3things, site)   ?p = the button (popup, pdf, ready_main, home_hero...)   ?src = ig, pdf, bio, direct */
+(function () {
+  var q = new URLSearchParams(location.search);
+  var clean = function (v, d) { return (v || d).replace(/[^a-z0-9_]/gi, '').slice(0, 24).toLowerCase() || d; };
+  var s = clean(q.get('s'), 'site'), p = clean(q.get('p'), 'unknown'), src = clean(q.get('src'), 'direct');
+  var u = new URL('https://whop.com/checkout/plan_scpA0tf0ttkQr');
+  u.searchParams.set('promoCode', 'NOODLE499');
+  u.searchParams.set('utm_source', src); u.searchParams.set('utm_medium', p); u.searchParams.set('utm_campaign', s);
+  document.getElementById('go').href = u.toString();
+  try {
+    whop.track('initiate_checkout', { variant_id: 'plan_scpA0tf0ttkQr', value: 4.99, currency: 'USD' });
+    whop.track('join_' + p);            // which button
+    whop.track('join_from_' + s);       // which sheet
+    whop.track('join_src_' + src);      // which channel (ig DM, pdf, bio...)
+  } catch (e) {}
+  var gone = false;
+  function leave() { if (gone) return; gone = true; location.replace(u.toString()); }
+  var tag = document.querySelector('script[src="https://t.whop.tw/s.js"]');
+  if (tag) tag.addEventListener('load', function () { setTimeout(leave, 450); });
+  setTimeout(leave, 1600);               // never keep anyone waiting longer than this
+})();
+</script>
+</body>
+</html>
