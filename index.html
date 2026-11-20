@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Noodlecafé Sessions · music theory, made small</title>
+<meta name="description" content="Free cheat sheets from the Noodlecafé reels, and 197 short lessons that make music theory click on your instrument. Try it 7 days free.">
+<meta property="og:title" content="Noodlecafé · Finally understand the music you play">
+<meta property="og:description" content="Free cheat sheets from the reels, plus 197 lessons inside Noodlecafé Sessions.">
+<meta property="og:image" content="https://noodlecafe.github.io/assets/og.jpg">
+<meta property="og:url" content="https://noodlecafe.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body data-page="home">
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>Noodle<span class="pink">café</span></span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="/free/">Cheat sheets</a>
+      <a class="hide-s" href="#play">Play</a>
+      <a class="hide-s" href="#inside">Lessons</a>
+      <a class="hide-s" href="#about">About</a>
+      <a class="btn btn-pink" data-join href="https://whop.com/noodlehub/join-nc/">Join · 7 days free</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-art">
+      <div class="frame">
+        <img src="/assets/diagram_12notes.jpg" alt="The 12-note fretboard map" width="800" height="1000">
+        <div class="chip a"><small>THE STRING CODE</small><b>5 5 5 <span class="pink">4</span> 5</b></div>
+        <div class="chip b"><small>IN EVERY KEY</small><b class="pink">I · IV · V</b></div>
+        <div class="pill">12 notes. That's it.</div>
+      </div>
+    </div>
+    <div class="hero-copy">
+      <div class="kicker">Music theory, made small</div>
+      <h1>Finally understand the <span class="pink">music you play.</span></h1>
+      <p class="lead">Every big thing in music is smaller than it looks. Our reels show you in 60 seconds. Inside, each one becomes a full lesson you can use tonight.</p>
+      <div class="stats"><span><b>19.3K</b> followers</span><span><b>197</b> lessons</span><span><b>7 days</b> free</span></div>
+      <div class="row">
+        <a class="btn btn-pink btn-big" data-join href="https://whop.com/noodlehub/join-nc/">Start 7 days free</a>
+        <a class="btn btn-ghost btn-big" href="/free/">Free cheat sheets</a>
+      </div>
+      <div class="socials">
+        <a class="social" href="https://www.youtube.com/@NoodlesCafe" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8336F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/></svg>YouTube</a>
+        <a class="social" href="https://www.instagram.com/noodlecaffe/" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8336F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></svg>Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"></div></div>
+
+<section>
+  <div class="wrap">
+    <div class="band">
+      <div class="band-copy">
+        <div class="kicker">Free cheat sheets</div>
+        <h2>One page per reel.<br>Print it, keep it.</h2>
+        <p class="lead">The diagram from every reel as a clean, printable PDF. Free, no sign-up.</p>
+        <div><a class="btn btn-ink" href="/free/">Get the cheat sheets</a></div>
+        <div class="fine">3 sheets · a new one with every reel</div>
+      </div>
+      <div class="band-pics">
+        <img src="/assets/sheet_12notes.jpg" alt="12-note fretboard map sheet" loading="lazy" width="620" height="877">
+        <img src="/assets/sheet_onestring.jpg" alt="5 5 5 4 5 sheet" loading="lazy" width="620" height="877">
+        <img src="/assets/sheet_3things.jpg" alt="Theory is only 3 things sheet" loading="lazy" width="620" height="877">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="play" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Play with it</div>
+      <h2>Tap any note. <span class="mark">Hear it.</span></h2>
+      <p class="lead">The guitar only has 12 notes. Tap one and every place it lives on the first 12 frets lights up.</p>
+    </div>
+    <div class="fb-wrap">
+      <div class="fb-scroll"><div class="fb" id="fretboard" role="group" aria-label="Playable guitar fretboard, frets 0 to 12"></div></div>
+      <div class="fb-note"><span class="fine">Now playing</span><span class="fb-now" id="fb-now">tap a note</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="reels" style="padding-top:24px">
+  <div class="wrap">
+    <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:32px">
+      <div class="sec-head" style="margin:0">
+        <div class="kicker">The reels</div>
+        <h2>Big ideas, made small.<br>One reel at a time.</h2>
+      </div>
+      <a class="btn btn-ghost" href="https://www.instagram.com/noodlecaffe/" target="_blank" rel="noopener">All reels on Instagram</a>
+    </div>
+    <div class="grid">
+      <a class="reel" href="https://www.instagram.com/noodlecaffe/" target="_blank" rel="noopener"><div class="pic"><img src="/assets/diagram_12notes.jpg" alt="" loading="lazy"><span class="views">108K views</span></div><h3>The guitar only has 12 notes</h3></a>
+      <a class="reel" href="https://www.instagram.com/noodlecaffe/" target="_blank" rel="noopener"><div class="pic"><img src="/assets/diagram_3things.jpg" alt="" loading="lazy"><span class="views">23.8K views</span></div><h3>Guitar theory is only 3 things</h3></a>
+      <a class="reel" href="https://www.instagram.com/noodlecaffe/" target="_blank" rel="noopener"><div class="pic"><img src="/assets/diagram_onestring.jpg" alt="" loading="lazy"><span class="views">14.9K views</span></div><h3>The one string relationship</h3></a>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="inside">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Inside Noodlecafé Sessions</div>
+      <h2>Everything behind the reels.</h2>
+      <p class="lead">The full lesson for every reel, plus the courses, tools and people to actually finish your songs.</p>
+    </div>
+    <div class="grid">
+      <div class="dcard"><span class="mono">82 LESSONS</span><h3>Music Theory 1–3</h3><span>Your ears, scales, chords in a key, 7ths and extended chords.</span></div>
+      <div class="dcard"><span class="mono">72 LESSONS</span><h3>Write Better Songs</h3><span>Ideas, progressions, melody and hooks, structure, lyrics.</span></div>
+      <div class="dcard"><span class="mono">43 LESSONS</span><h3>Master Your DAW</h3><span>Record, edit and mix your own songs in Reaper.</span></div>
+      <div class="dcard"><span class="mono">11 GUIDES</span><h3>Guitar guides</h3><span>Fretboard maps for 7 tunings, Fretboard Fluency, the theory cheatsheet.</span></div>
+    </div>
+    <div class="tags">
+      <span>NoodleHub · theory tools in your browser</span><span>NoodleSplit · split any song into stems</span><span>Flashcards</span><span>The Café · questions and feedback</span>
+    </div>
+    <div class="video" style="margin-bottom:28px"><video src="/assets/tour.mp4" poster="/assets/tour_poster.jpg" controls preload="none" playsinline></video></div>
+    <div class="row"><a class="btn btn-pink btn-big" data-join href="https://whop.com/noodlehub/join-nc/">Start 7 days free</a><span class="fine">then $9.99/month · cancel anytime</span></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div class="bowl"><div class="steam" aria-hidden="true"><i></i><i></i><i></i></div><img src="/assets/logo.png" alt="Noodle, the Noodlecafé bowl" width="120" height="120"></div>
+    <div style="flex:1 1 480px;min-width:0;display:flex;flex-direction:column;gap:16px">
+      <div class="kicker">About</div>
+      <p class="big">Hey, it's Noodle. Noodlecafé started with one idea: every big thing in music is smaller than it looks.</p>
+      <p style="color:#4A4A4A">Each reel takes one of those big things, like the whole fretboard or all of music theory, and shrinks it into something you can use tonight. Got a topic that still feels huge? Tell me in the comments. It might be the next reel.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap" style="max-width:860px">
+    <h2 style="margin-bottom:24px">Questions</h2>
+    <details><summary>I'm a total beginner. Is this for me?</summary><p>Yes. Theory 1 starts from "what is a note" and builds one small step at a time. No reading music needed.</p></details>
+    <details><summary>I play piano, not guitar.</summary><p>Everything works on piano and in any DAW too. The guitar guides are a bonus.</p></details>
+    <details><summary>How does the free week work?</summary><p>Full access to everything for 7 days. After that it's one simple plan: $9.99/month. Cancel anytime in Whop with one click.</p></details>
+    <details><summary>Is there a guarantee?</summary><p>Our 7-Day Slurp Guarantee: not your bowl of noodles? Email us within a week for a full refund.</p></details>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="join">
+      <div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:12px">
+        <div class="kicker">7 days free</div>
+        <h2>Your first lesson is 10 minutes away.</h2>
+        <p>Then $9.99/month. Cancel anytime. 7-day refund guarantee.</p>
+      </div>
+      <a class="btn btn-ink btn-big" data-join href="https://whop.com/noodlehub/join-nc/">Start 7 days free</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav aria-label="Footer"><a href="/free/">Cheat sheets</a><a href="#play">Play</a><a href="#inside">Lessons</a><a href="https://www.youtube.com/@NoodlesCafe" target="_blank" rel="noopener">YouTube</a><a href="https://www.instagram.com/noodlecaffe/" target="_blank" rel="noopener">Instagram</a></nav>
+    <div class="mono" style="font-size:12px">© 2026 Noodlecafé Sessions</div>
+  </div>
+</footer>
+<script src="/assets/site.js"></script>
+</body>
+</html>
