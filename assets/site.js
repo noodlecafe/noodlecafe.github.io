@@ -10,7 +10,7 @@
   document.querySelectorAll('a[data-join]').forEach(function (a) {
     var u = new URL(CHECKOUT);
     u.searchParams.set('utm_source', 'website');
-    u.searchParams.set('utm_medium', page);
+    u.searchParams.set('utm_medium', a.getAttribute('data-medium') || page);
     u.searchParams.set('utm_campaign', /^\d+$/.test(from) ? 'reel' + from : (from || 'direct'));
     a.href = u.toString();
   });
@@ -106,15 +106,40 @@
       }
     });
   }
-  /* ---- ready page: celebrate the save, show the sticky join bar once they scroll ---- */
+  /* ---- the takeover: the moment they save the PDF, one clear next step slides up ---- */
+  var ovl = document.getElementById('offer');
+  function openOffer() {
+    if (!ovl) return;
+    ovl.hidden = false; requestAnimationFrame(function () { ovl.classList.add('open'); });
+    document.body.classList.add('locked');
+    var cta = ovl.querySelector('.btn-pink'); if (cta) setTimeout(function () { cta.focus({ preventScroll: true }); }, 450);
+  }
+  function closeOffer() {
+    if (!ovl) return; ovl.classList.remove('open'); document.body.classList.remove('locked');
+    setTimeout(function () { ovl.hidden = true; }, 300);
+  }
+  if (ovl) {
+    ovl.addEventListener('click', function (ev) { if (ev.target === ovl || ev.target.closest('.ovl-x, .ovl-no')) closeOffer(); });
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeOffer(); });
+  }
+  var KEY = 'nc_saved_' + location.pathname;
   document.querySelectorAll('[data-pdf]').forEach(function (a) {
-    a.addEventListener('click', function () { confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220); });
+    a.addEventListener('click', function () {
+      try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+      confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
+      setTimeout(openOffer, 250);
+    });
+  });
+  /* if the PDF opened in the same window (Instagram's browser), the offer is waiting when they come back */
+  window.addEventListener('pageshow', function () {
+    var saved = false; try { saved = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+    if (saved && ovl && !ovl.classList.contains('open')) openOffer();
   });
   var sticky = document.getElementById('sticky');
   if (sticky) {
     var join = document.getElementById('join');
     var onScroll = function () {
-      var y = window.scrollY, past = y > 520;
+      var past = window.scrollY > 420;
       var atJoin = join && join.getBoundingClientRect().top < window.innerHeight && join.getBoundingClientRect().bottom > 0;
       sticky.classList.toggle('show', past && !atJoin);
     };

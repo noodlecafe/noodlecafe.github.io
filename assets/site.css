@@ -220,3 +220,29 @@ section.tight{padding:28px 0}
 .sticky.show{transform:none}
 .sticky .btn{box-shadow:0 4px 0 var(--pink-d)}
 .land,.ready-top{overflow-x:clip}
+
+/* ---- the post-download takeover (v3, 20 Nov): one decision, impossible to miss ---- */
+body.locked{overflow:hidden}
+.ovl{position:fixed;inset:0;z-index:80;background:rgba(17,17,17,.62);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.ovl.open{opacity:1;pointer-events:auto}
+.ovl-card{position:relative;width:100%;max-width:520px;max-height:94vh;overflow:auto;background:#fff;border-radius:28px 28px 0 0;padding:26px 22px calc(22px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;transform:translateY(100%);transition:transform .45s cubic-bezier(.2,1.2,.3,1)}
+.ovl.open .ovl-card{transform:none}
+@media (min-width:700px){.ovl{align-items:center}.ovl-card{border-radius:28px;padding:32px}}
+.ovl-x{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:#F3F1EC;font-size:20px;line-height:1;cursor:pointer;color:#555}
+.ok{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:#E9F6EA;color:#2F7D36;font-weight:700;font-size:14px;padding:7px 12px;border-radius:999px}
+.ok i{width:18px;height:18px;border-radius:50%;background:#3E9B47;display:inline-flex;align-items:center;justify-content:center;font-style:normal;color:#fff;font-size:12px}
+.ovl-card h2{font-size:clamp(30px,8vw,40px);line-height:1.04}
+.ovl-card p.why{font-size:16px;color:#4A4A4A;line-height:1.5}
+.lock{display:flex;align-items:center;gap:14px;text-decoration:none;border:1.5px solid var(--ink);border-radius:18px;padding:14px 14px;background:#fff;transition:transform .15s,background .15s}
+.lock:hover{transform:translateY(-2px);background:#FFF8E1}
+.lock .pad{flex:0 0 42px;height:42px;border-radius:12px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.lock small{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--pink)}
+.lock b{display:block;font-size:16px;line-height:1.25}
+.lock .go{margin-left:auto;font-weight:800;font-size:14px;color:var(--pink);white-space:nowrap}
+.lock.got{border-color:#3E9B47;background:#F3FAF3}
+.lock.got .pad{background:#3E9B47}
+.lock.got .go{color:#2F7D36}
+.ovl-card .btn-wide{max-width:none}
+.ovl-no{border:0;background:none;color:#9A968E;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;align-self:center;padding:6px}
+.pulse{animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 6px 0 var(--pink-d),0 0 0 0 rgba(232,51,111,.45)}50%{box-shadow:0 6px 0 var(--pink-d),0 0 0 12px rgba(232,51,111,0)}}
