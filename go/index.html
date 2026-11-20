@@ -32,8 +32,10 @@ p{font-size:18px;font-weight:700;margin:12px 0 6px}a{color:#E8336F;font-weight:7
     whop.track('join_from_' + s);       // which sheet
     whop.track('join_src_' + src);      // which channel (ig DM, pdf, bio...)
   } catch (e) {}
+  /* leave by CLICKING the whop.com link: Whop's pixel adds the visitor id (_swuid) to whop.com links on click,
+     which is how a trial gets tied back to this visit. A script redirect would skip that. */
   var gone = false;
-  function leave() { if (gone) return; gone = true; location.replace(u.toString()); }
+  function leave() { if (gone) return; gone = true; document.getElementById('go').click(); setTimeout(function () { location.replace(u.toString()); }, 1500); }
   var tag = document.querySelector('script[src="https://t.whop.tw/s.js"]');
   if (tag) tag.addEventListener('load', function () { setTimeout(leave, 450); });
   setTimeout(leave, 1600);               // never keep anyone waiting longer than this
