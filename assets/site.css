@@ -255,3 +255,17 @@ body.locked{overflow:hidden}
 @media (min-width:700px){.ovl-cta{bottom:-32px;margin:0 -32px -32px;padding:12px 32px 22px}}
 @media (max-width:420px){.ovl-card{gap:11px;padding-top:22px}.ovl-card h2{font-size:28px}.ovl-card p.why{font-size:15px}.lock{padding:11px 12px}.lock .pad{flex-basis:36px;height:36px}}
 .deal.dmini{font-size:13.5px;padding:9px 12px;line-height:1.4}
+/* 22 Nov: compact panel (fits one phone screen, opens BEFORE the PDF) */
+.ovl-card.v2{gap:10px;padding:20px 18px calc(16px + env(safe-area-inset-bottom))}
+.ovl-card.v2 .ok{font-size:13px;padding:6px 11px}
+.ovl-card.v2 h2{font-size:clamp(23px,6.4vw,30px);line-height:1.1;padding-right:34px}
+.mini-locks{display:flex;flex-direction:column;gap:7px}
+.ml{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);border:1.5px solid var(--ink);border-radius:14px;padding:8px 10px;background:#fff}
+.ml .pad{flex:0 0 30px;height:30px;border-radius:9px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.ml .pad svg{width:15px;height:15px}
+.ml b{font-size:14.5px;line-height:1.25;font-weight:700}
+.ml .go{margin-left:auto;font-weight:800;font-size:13px;color:var(--pink);white-space:nowrap}
+.ovl-card.v2 .btn-big{font-size:17px;padding:14px 18px;min-height:52px}
+.ovl-card.v2 .fine{font-size:11.5px;line-height:1.4}
+.fine.c{text-align:center}
+.btn-line{display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);font-weight:700;font-size:15px;padding:11px 16px;min-height:44px;text-decoration:none}

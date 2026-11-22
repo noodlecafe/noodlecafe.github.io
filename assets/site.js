@@ -133,6 +133,20 @@
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeOffer(); });
   }
   var KEY = 'nc_saved_' + location.pathname;
+  /* 22 Nov: asking for the PDF opens the panel FIRST (nothing leaves Instagram yet); the PDF itself opens from the
+     panel's 'Open my free PDF' button, which goes through the counter (/pdf). */
+  document.querySelectorAll('[data-get]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      track('pdf_save', sheetOf(a));
+      confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
+      setTimeout(openOffer, 150);
+    });
+  });
+  document.querySelectorAll('[data-pdf-open]').forEach(function (a) {
+    a.href += '&src=' + encodeURIComponent(src);
+    a.addEventListener('click', function () { try { sessionStorage.setItem(KEY, '1'); } catch (e) {} });
+  });
   document.querySelectorAll('[data-pdf]').forEach(function (a) {
     a.addEventListener('click', function () {
       track('pdf_save', sheetOf(a));
