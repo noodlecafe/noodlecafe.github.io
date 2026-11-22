@@ -122,7 +122,7 @@
     track('popup_open');
     ovl.hidden = false; requestAnimationFrame(function () { ovl.classList.add('open'); });
     document.body.classList.add('locked');
-    var cta = ovl.querySelector('.btn-pink'); if (cta) setTimeout(function () { cta.focus({ preventScroll: true }); }, 450);
+    setTimeout(function () { try { ovl.focus({ preventScroll: true }); } catch (e) {} }, 450);
   }
   function closeOffer() {
     if (!ovl) return; ovl.classList.remove('open'); document.body.classList.remove('locked');
