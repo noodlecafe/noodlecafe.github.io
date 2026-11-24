@@ -135,12 +135,55 @@
   var KEY = 'nc_saved_' + location.pathname;
   /* 22 Nov: asking for the PDF opens the panel FIRST (nothing leaves Instagram yet); the PDF itself opens from the
      panel's 'Open my free PDF' button, which goes through the counter (/pdf). */
+  /* 24 Nov: the email step. 'Get my free PDF' asks for the email first (#ask), sends it to the counter's /sub
+     (which passes it to Sender and only counts it), then the offer panel opens as before. Pages without #ask
+     keep the old flow. A network error never blocks the PDF. */
+  var ask = document.getElementById('ask'), askForm = document.getElementById('ask-form');
+  var EKEY = 'nc_email_given';
+  function given() { try { return sessionStorage.getItem(EKEY) === '1'; } catch (e) { return false; } }
+  function celebrate(s) {
+    track('pdf_save', s);
+    confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
+    setTimeout(openOffer, 150);
+  }
+  function openAsk() {
+    track('ask_open');
+    ask.hidden = false; requestAnimationFrame(function () { ask.classList.add('open'); });
+    document.body.classList.add('locked');
+    setTimeout(function () { try { ask.focus({ preventScroll: true }); } catch (e) {} }, 450);
+  }
+  function closeAsk(after) {
+    ask.classList.remove('open');
+    setTimeout(function () { ask.hidden = true; if (after) after(); else document.body.classList.remove('locked'); }, 280);
+  }
+  if (ask && askForm) {
+    ask.addEventListener('click', function (ev) { if (ev.target === ask || ev.target.closest('.ovl-x')) { track('ask_close'); closeAsk(); } });
+    var input = document.getElementById('ask-email'), err = document.getElementById('ask-err'), go = document.getElementById('ask-go');
+    askForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var email = (input.value || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { err.hidden = false; input.focus(); return; }
+      err.hidden = true; go.disabled = true; go.textContent = 'One sec…';
+      var done = function () {
+        try { sessionStorage.setItem(EKEY, '1'); } catch (e) {}
+        go.disabled = false; go.textContent = 'Get my free PDF';
+        closeAsk(function () { celebrate(sheet); });
+      };
+      if (/^(localhost|127\.|file)/.test(location.hostname || 'file')) { try { console.log('[counter test] sub', sheet); } catch (e) {} done(); return; }
+      fetch(COUNTER + '/sub', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, sheet: sheet, page: page, src: src, p: 'ask', hp: askForm.company ? askForm.company.value : '' }) })
+        .then(function (r) {
+          if (r.status === 400) { go.disabled = false; go.textContent = 'Get my free PDF'; err.hidden = false; input.focus(); return; }
+          done();
+        })
+        .catch(done);
+    });
+  }
   document.querySelectorAll('[data-get]').forEach(function (a) {
     a.addEventListener('click', function (ev) {
       ev.preventDefault();
-      track('pdf_save', sheetOf(a));
-      confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
-      setTimeout(openOffer, 150);
+      if (ask && askForm && !given()) { openAsk(); return; }
+      celebrate(sheetOf(a));
     });
   });
   document.querySelectorAll('[data-pdf-open]').forEach(function (a) {

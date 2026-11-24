@@ -285,3 +285,12 @@ body.locked{overflow:hidden}
 @keyframes shine{0%,55%{left:-60%}85%,100%{left:130%}}
 @media (prefers-reduced-motion:reduce){.btn-go,.btn-go::after{animation:none}}
 .ovl-card.v2{gap:9px}.ovl-card.v2 h2{font-size:clamp(21px,5.9vw,28px)}.me{font-size:13.5px}
+/* 24 Nov: the email step */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.ask-in{width:100%;font:inherit;font-size:17px;padding:14px 16px;border:1.5px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);min-height:52px}
+.ask-in:focus{outline:3px solid var(--pink);outline-offset:1px}
+.ask-err{font-size:13.5px;color:#B4233F;font-weight:600}
+.ovl-card.ask .fine a{color:inherit}
+.ovl-card.ask p.why{font-size:15px;margin:0}
+#ask-go:disabled{opacity:.7}
