@@ -7,7 +7,7 @@
 
   /* ---- the Noodle Counter: every join button goes through the counter's /go (counted on the server, then the
      Whop checkout with NOODLE499 + UTM). On-page events are sent with sendBeacon, which survives leaving the page. ---- */
-  var COUNTER = 'https://noodle-counter.noodlecafe.workers.dev';
+  var COUNTER = 'https://go.noodlecafemusic.com';
   var page = document.body.getAttribute('data-page') || 'site';
   var sheet = document.body.getAttribute('data-sheet') || 'site';
   var src = /^\d+$/.test(from) ? 'direct' : (from.replace(/^pdf\d*$/, 'pdf') || 'direct');      // ig (Zorcha DM), pdf, bio...
