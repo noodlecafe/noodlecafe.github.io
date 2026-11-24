@@ -9,7 +9,7 @@
      Whop checkout with NOODLE499 + UTM). On-page events are sent with sendBeacon, which survives leaving the page. ---- */
   var COUNTER = 'https://go.noodlecafemusic.com';
   var page = document.body.getAttribute('data-page') || 'site';
-  var sheet = document.body.getAttribute('data-sheet') || 'site';
+  var sheet = (params.get('s') || '').replace(/[^a-z0-9]/gi, '').toLowerCase() || document.body.getAttribute('data-sheet') || 'site';   // the join page gets the sheet from ?s=
   var src = /^\d+$/.test(from) ? 'direct' : (from.replace(/^pdf\d*$/, 'pdf') || 'direct');      // ig (Zorcha DM), pdf, bio...
   document.querySelectorAll('a[data-join]').forEach(function (a) {
     a.href = COUNTER + '/go?s=' + encodeURIComponent(sheet) + '&p=' + encodeURIComponent(a.getAttribute('data-medium') || page) + '&src=' + encodeURIComponent(src) + '&pg=' + encodeURIComponent(page);
@@ -141,6 +141,12 @@
   var ask = document.getElementById('ask'), askForm = document.getElementById('ask-form');
   var EKEY = 'nc_email_given';
   function given() { try { return sessionStorage.getItem(EKEY) === '1'; } catch (e) { return false; } }
+  /* 24 Nov: after the email (or for a returning visitor), go straight to the join page. The cheat sheet button is at
+     the top of that page, and email 1 delivers it too. The pop-up (#offer) is no longer opened from here. */
+  function goJoin(s) {
+    track('pdf_save', s);
+    setTimeout(function () { location.href = '/join/?s=' + encodeURIComponent(s) + '&r=' + encodeURIComponent(src); }, 120);
+  }
   function celebrate(s) {
     track('pdf_save', s);
     confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
@@ -167,7 +173,7 @@
       var done = function () {
         try { sessionStorage.setItem(EKEY, '1'); } catch (e) {}
         go.disabled = false; go.textContent = 'Get my free PDF';
-        closeAsk(function () { celebrate(sheet); });
+        closeAsk(function () { goJoin(sheet); });
       };
       if (/^(localhost|127\.|file)/.test(location.hostname || 'file')) { try { console.log('[counter test] sub', sheet); } catch (e) {} done(); return; }
       fetch(COUNTER + '/sub', { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -183,7 +189,7 @@
     a.addEventListener('click', function (ev) {
       ev.preventDefault();
       if (ask && askForm && !given()) { openAsk(); return; }
-      celebrate(sheetOf(a));
+      goJoin(sheetOf(a));
     });
   });
   document.querySelectorAll('[data-pdf-open]').forEach(function (a) {
