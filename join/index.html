@@ -20,6 +20,7 @@
 <header class="top slim"><div class="wrap"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>Noodle<span class="pink">café</span></span></a></div></header>
 <main>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
 .jp{padding:14px 0 110px}.jp .wrap{max-width:720px;display:flex;flex-direction:column;gap:18px}
 .jp-sent{font-size:14px;color:#2F7D36;background:#E9F6EA;border-radius:999px;padding:7px 14px;align-self:flex-start;font-weight:600}
 .jp-hey{display:flex;align-items:center;gap:12px}.jp-hey img{width:52px;height:52px;border-radius:14px;image-rendering:pixelated}
@@ -29,6 +30,16 @@
 .jp-vid{width:100%;max-width:100%;aspect-ratio:16/9;border-radius:18px;background:#111;box-shadow:0 18px 40px rgba(17,17,17,.14)}
 .jp-poster{display:block;padding:0;border:0;cursor:pointer;overflow:hidden;background:#fff}.jp-poster img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s ease}.jp-poster:hover img{transform:scale(1.015)}
 video.jp-vid{object-fit:contain}
+.jp-watch{position:relative;margin-top:62px}.jp-poster{position:relative}
+.jp-hint{position:absolute;left:50%;top:-80px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none;z-index:2}
+.jp-hint span{font-family:'Caveat',cursive;font-weight:700;font-size:27px;color:#E8336F;transform:rotate(-4deg);white-space:nowrap;line-height:1}
+.jp-hint svg{margin-top:2px;margin-left:-6px}
+.jp-pb{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:#E8336F;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(232,51,111,.45);padding-left:5px;box-sizing:border-box}
+.jp-pb::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:3px solid rgba(232,51,111,.55);animation:jp-ring 1.8s ease-out infinite}
+@keyframes jp-ring{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.35);opacity:0}}
+.jp-poster:hover .jp-pb{transform:scale(1.06)}.jp-pb{transition:transform .2s ease}
+@media (max-width:480px){.jp-pb{width:60px;height:60px;margin:-30px 0 0 -30px}.jp-pb svg{width:26px;height:26px}.jp-hint{top:-74px}.jp-hint span{font-size:24px}}
+@media (prefers-reduced-motion:reduce){.jp-pb::after{animation:none;opacity:0}}
 .jp-card{border-radius:22px;padding:20px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
 .jp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
 .jp-list li{display:flex;gap:12px;font-size:17px;line-height:1.45}.jp-list li i{font-style:normal;font-size:24px;flex:0 0 30px}
@@ -46,7 +57,7 @@ video.jp-vid{object-fit:contain}
 <div class="jp-hey"><img src="/assets/logo.png" alt=""><div><b>Hey, it's Noodle 👋</b><span>the guy from the reels</span></div></div>
 <h1>Can I show you something? <span class="pink">It takes 2 minutes.</span></h1>
 <p>That cheat sheet is one page. Inside <b>Noodlecafé Sessions</b> is everything around it: short video lessons that finally connect the dots, guitar guides, handy tools, and a community of people learning exactly like you. Here's a quick look inside 👇</p>
-<button type="button" class="jp-vid jp-poster" id="jp-play" aria-label="Play: a 2-minute look inside Noodlecafé Sessions"><img src="/join/thumb.jpg" alt="" width="1280" height="720"></button>
+<div class="jp-watch"><div class="jp-hint" aria-hidden="true"><span>psst… watch this first 👀</span><svg viewBox="0 0 70 50" width="58" height="42"><path d="M52 4 C 58 22, 44 34, 30 42" fill="none" stroke="#E8336F" stroke-width="4" stroke-linecap="round"/><path d="M38 32 L 28 43 L 42 46" fill="none" stroke="#E8336F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><button type="button" class="jp-vid jp-poster" id="jp-play" aria-label="Play: a 2-minute look inside Noodlecafé Sessions"><img src="/join/thumb.jpg?v=3" alt="" width="1280" height="720"><span class="jp-pb" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M8 5.5v13l11-6.5z" fill="#fff"/></svg></span></button></div>
 <a class="btn btn-go btn-big btn-wide" data-join data-medium="join_top" href="https://whop.com/noodlehub/join-nc/"><span>Join the community 🎸</span><small>Free for 14 days · cancel anytime</small></a>
 <div class="jp-card"><h2>What you get 🎁</h2><ul class="jp-list">
 <li><i>🎸</i><span><b>11 guitar guides.</b> Fretboard Fluency, every note mapped in 7 tunings, and the guitar theory cheatsheet.</span></li>
