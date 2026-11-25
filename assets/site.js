@@ -143,9 +143,17 @@
   function given() { try { return sessionStorage.getItem(EKEY) === '1'; } catch (e) { return false; } }
   /* 24 Nov: after the email (or for a returning visitor), go straight to the join page. The cheat sheet button is at
      the top of that page, and email 1 delivers it too. The pop-up (#offer) is no longer opened from here. */
+  /* 25 Nov (user): the confetti + the original 3-note pluck are back. They fire on the tap itself (phones only allow
+     sound during a tap), and the landing page opens once they have had ~1.3 s to play. */
+  var cheeredAt = 0;
+  function cheer() {
+    cheeredAt = Date.now();
+    confetti(); pluck(64); setTimeout(function () { pluck(67); }, 110); setTimeout(function () { pluck(71); }, 220);
+  }
   function goJoin(s) {
     track('pdf_save', s);
-    setTimeout(function () { location.href = '/join/?s=' + encodeURIComponent(s) + '&r=' + encodeURIComponent(src); }, 120);
+    var wait = cheeredAt ? Math.max(120, 1300 - (Date.now() - cheeredAt)) : 120;
+    setTimeout(function () { location.href = '/join/?s=' + encodeURIComponent(s) + '&r=' + encodeURIComponent(src); }, wait);
   }
   function celebrate(s) {
     track('pdf_save', s);
@@ -170,6 +178,7 @@
       var email = (input.value || '').trim();
       if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { err.hidden = false; input.focus(); return; }
       err.hidden = true; go.disabled = true; go.textContent = 'One sec…';
+      cheer();
       var done = function () {
         try { sessionStorage.setItem(EKEY, '1'); } catch (e) {}
         go.disabled = false; go.textContent = 'Get my free PDF';
@@ -189,7 +198,7 @@
     a.addEventListener('click', function (ev) {
       ev.preventDefault();
       if (ask && askForm && !given()) { openAsk(); return; }
-      goJoin(sheetOf(a));
+      cheer(); goJoin(sheetOf(a));
     });
   });
   document.querySelectorAll('[data-pdf-open]').forEach(function (a) {
